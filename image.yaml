@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: image-config
+data:
+  DB_HOST: "mysql-image"
+  DB_PORT: "3306"
+  DB_NAME: "image"
+  DB_USER: "root"
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: image
+  labels:
+    app: image
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: image
+  template:
+    metadata:
+      labels:
+        app: image
+    spec:
+      containers:
+      - name: image
+        image: hongyujin88/yorijori-image-service:0.6
+        ports:
+        - containerPort: 3000
+        envFrom:
+        - configMapRef:
+            name: image-config
+        env:
+          - name: DB_PASS
+            valueFrom:
+              secretKeyRef:
+                name: image-db-credentials
+                key: DB_PASS
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: image-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 3000
+    targetPort: 3000
+  selector:
+    app: image
