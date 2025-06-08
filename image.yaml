@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
       - name: image
-        image: hongyujin88/yorijori-image-service:0.6
+        image: limyeeun/cloudcomputing-image-service:0.5
         ports:
         - containerPort: 3000
         envFrom:
