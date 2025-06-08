@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
       - name: image
-        image: limyeeun/cloudcomputing-image-service:0.5
+        image: limyeeun/cloudcomputing-image-service:0.9
         ports:
         - containerPort: 3000
         envFrom:

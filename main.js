@@ -12,7 +12,7 @@ const { Storage } = require('@google-cloud/storage');
 const crypto = require('crypto');
 
 const queueName = 'image_upload';
-const bucketName = 'image_service25';
+const bucketName = 'cc-yorijori';
 const storage = new Storage({
   keyFilename: path.join(__dirname, 'gcp-key.json'), // GCP 키 경로
 });
@@ -38,10 +38,16 @@ async function uploadToGCS(file) {
     });
 
     stream.on('finish', async () => {
-        // await blob.makePublic(); 
+      try {
+        await blob.makePublic(); // 퍼블릭 설정
+      } catch (e) {
+        console.error('⚠️ 퍼블릭 설정 실패:', e.message); // 서비스 안 죽게 예외 처리
+      }
+    
       const publicUrl = `https://storage.googleapis.com/${bucketName}/${filename}`;
       resolve(publicUrl);
     });
+    
 
     stream.on('error', reject);
     stream.end(buffer);
