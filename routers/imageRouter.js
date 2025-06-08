@@ -56,6 +56,6 @@ router.post('/upload/profile', upload.single('file'), async (req, res) => {
   res.status(200).json({ message: '프로필 이미지 업로드 요청 수신', filename: file.originalname });
 });
 
-router.get('/:id', imageController.getImage);
+router.get('/:postId', imageController.getImage);
 
 module.exports = router;

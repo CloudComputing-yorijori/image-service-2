@@ -4,11 +4,13 @@ const Image = require('../models/image')(sequelize, Sequelize);
 
 exports.getImage = async (req, res) => {
   try {
-    const id = req.params.id;
-    const image = await Image.findByPk(id);
+    const postId = req.params.postId;
+
+    // postId를 기준으로 이미지 조회
+    const image = await Image.findOne({ where: { postId } });
 
     if (!image) {
-      return res.status(404).send('Image not found');
+      return res.status(404).send('해당 postId의 이미지가 없습니다');
     }
 
     res.redirect(image.url);
