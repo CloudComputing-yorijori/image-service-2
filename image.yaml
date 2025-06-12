@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
       - name: image
-        image: limyeeun/cloudcomputing-image-service:0.9
+        image: limyeeun/cloudcomputing-image-service:1.5
         ports:
         - containerPort: 3000
         envFrom:
@@ -40,6 +40,14 @@ spec:
               secretKeyRef:
                 name: image-db-credentials
                 key: DB_PASS
+        volumeMounts:
+        - name: gcp-key-volume
+          mountPath: /app/gcp-key.json
+          subPath: gcp-key.json
+      volumes:
+      - name: gcp-key-volume
+        secret:
+          secretName: gcp-key
 
 ---
 

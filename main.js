@@ -14,7 +14,7 @@ const crypto = require('crypto');
 const queueName = 'image_upload';
 const bucketName = 'cc-yorijori';
 const storage = new Storage({
-  keyFilename: path.join(__dirname, 'gcp-key.json'), // GCP 키 경로
+  keyFilename: '/app/gcp-key.json',
 });
 
 app.use(cors());
@@ -38,11 +38,11 @@ async function uploadToGCS(file) {
     });
 
     stream.on('finish', async () => {
-      try {
-        await blob.makePublic(); // 퍼블릭 설정
-      } catch (e) {
-        console.error('⚠️ 퍼블릭 설정 실패:', e.message); // 서비스 안 죽게 예외 처리
-      }
+      // try {
+      //   await blob.makePublic(); // 퍼블릭 설정
+      // } catch (e) {
+      //   console.error('⚠️ 퍼블릭 설정 실패:', e.message); // 서비스 안 죽게 예외 처리
+      // }
     
       const publicUrl = `https://storage.googleapis.com/${bucketName}/${filename}`;
       resolve(publicUrl);
